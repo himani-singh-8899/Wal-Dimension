@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.WalDimension" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/walmart</item>
+        <item name="colorPrimaryVariant">@color/walmart</item>
+    </style>
+
+    <style name="Theme.WalDimension" parent="Base.Theme.WalDimension" />
+</resources>

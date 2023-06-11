@@ -2,6 +2,7 @@ package com.example.wal_dimension;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -20,6 +21,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.wal_dimension.databinding.ActivityMainBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 
@@ -40,12 +46,33 @@ public class MainActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> cameraLauncher;
     private Button button;
 
+    private DatabaseReference reff;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Toast.makeText(MainActivity.this, "Fire Base Connection Success", Toast.LENGTH_LONG).show();
+
+        reff = FirebaseDatabase.getInstance().getReference().child("wal-dimension");
+
+        reff.child("test").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String age = snapshot.getValue(String.class);
+                    System.out.println("test: "+age);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("Error!!");
+            }
+        });
 
         initCategories();
         initProducts();
